@@ -1,0 +1,336 @@
+
+
+
+
+IPSO Working Group                                            J. Jimenez
+Internet-Draft                                                  Ericsson
+Intended status: Standards Track                       December 12, 2019
+Expires: June 14, 2020
+
+
+                 Problem Details For Versioning in IoT
+                  draft-jimenez-version-problem-latest
+
+Abstract
+
+   This document provides some problem details when doing versioning on
+   IoT devices, it illustrates common problems faced by SDOs.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on June 14, 2020.
+
+Copyright Notice
+
+   Copyright (c) 2019 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (https://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+
+
+
+
+
+Jimenez                   Expires June 14, 2020                 [Page 1]
+
+Internet-Draft             Versioning Problems             December 2019
+
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Requirements Language . . . . . . . . . . . . . . . . . .   2
+   2.  Types of Changes  . . . . . . . . . . . . . . . . . . . . . .   2
+     2.1.  Semantic Versioning . . . . . . . . . . . . . . . . . . .   3
+     2.2.  Software Evolution  . . . . . . . . . . . . . . . . . . .   3
+     2.3.  Data Model Versioning . . . . . . . . . . . . . . . . . .   4
+   3.  Versioning Examples . . . . . . . . . . . . . . . . . . . . .   4
+     3.1.  HTTP Versioning . . . . . . . . . . . . . . . . . . . . .   4
+     3.2.  IPSO Versioning . . . . . . . . . . . . . . . . . . . . .   4
+     3.3.  YANG versioning . . . . . . . . . . . . . . . . . . . . .   4
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     6.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
+     6.2.  Informative References  . . . . . . . . . . . . . . . . .   5
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   6
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
+
+1.  Introduction
+
+   As software is improved over time, new releases are provided with new
+   features or with fixes to known problems.  To distinguish between
+   releases you have specific version numbers that identify the release.
+   They operate on the assumption that development runs in a linear
+   progression with little complexity.
+
+   However, as systems grow and become interdependent it is more likely
+   to enter into dependency and backwards compatibility issues.  IoT is
+   no different in this regard.
+
+1.1.  Requirements Language
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+2.  Types of Changes
+
+   Changes can be additions or extensions to existing software, bug
+   fixes or complete reinterpretations of existing interactions.
+
+   Changes need to be _backwards compatible_ with legacy devices and
+   systems without breaking existing APIs and/or format assumptions, so
+   that your evolved code can work with the legacy system.  They need
+
+
+
+Jimenez                   Expires June 14, 2020                 [Page 2]
+
+Internet-Draft             Versioning Problems             December 2019
+
+
+   also to be able to be _forwards compatible_ towards future extensions
+   added to them, they need to tolerate different input without breaking
+   up.
+
+2.1.  Semantic Versioning
+
+   On most software systems and Web APIs there is the concept of
+   "Semantic Versioning" [SEMVER], which provides a categorization as
+   follows:
+
+Given a version number MAJOR.MINOR.PATCH, increment the:
+
+- MAJOR version when you make incompatible API changes,
+- MINOR version when you add functionality in a backwards compatible manner, and
+- PATCH version when you make backwards compatible bug fixes.
+
+2.2.  Software Evolution
+
+   In scenarios where interactions are between two endpoints (e.g.,
+   producer/consumer, client/server, ...) there is a distinction on how
+   software changes are expected to happen.
+
+   When the data sender can enforce changes on the consumer, versioning
+   is indicated and the consumer has no say on the new version.
+
+   When both sides have a say they may negotiate what changes can be
+   applied and the producer also needs to adapt to the requirements of
+   the consumer, this is common in backwards compatibility breaking
+   changes.
+
+   RFC791 defines the "robustness principle" which places the burden of
+   handling backwards compatibility on the consumer/server.
+
+      an implementation must be conservative in its sending
+      behavior, and liberal in its receiving behavior.
+
+   Of course, in IoT the client/server roles may change depending on the
+   protocol used and other considerations like computing power, memory
+   or connectivity might be more important.
+
+   With most software there is a disincentive to roll-up feature bundles
+   into new versions as it creates flag day between producers and
+   consumers.
+
+
+
+
+
+
+
+
+Jimenez                   Expires June 14, 2020                 [Page 3]
+
+Internet-Draft             Versioning Problems             December 2019
+
+
+2.3.  Data Model Versioning
+
+   TBD
+
+3.  Versioning Examples
+
+   While [SEMVER] formatting works fine for versioning of interfaces and
+   protocols it might be different for _versioning of data formats_.
+   Here we see some example protocols and data models and how they have
+   dealt with versioning.
+
+3.1.  HTTP Versioning
+
+   The Hypertext Transfer Protocol (HTTP) also includes a protocol
+   versioning scheme to indicate which version of the protocol is used
+   [RFC2145].  This pattern is common in many other protocols.
+
+   Versions of the protocol is indicated using the _major.minor_
+   numbering.  The _minor_ number is incremented when the changes made
+   to the protocol add features which do not change the general message
+   parsing algorithm, but which may add to the message semantics and
+   imply additional capabilities of the sender.  The _major_ number is
+   incremented when the format of a message within the protocol is
+   changed.
+
+   HTTP since v1.0 had multiple modifications but somehow the existing
+   feature set never triggered a major revisions until HTTP v1.1.  HTTP
+   v2 completely replace the protocol layer.
+
+3.2.  IPSO Versioning
+
+   TBD
+
+3.3.  YANG versioning
+
+   On the IETF the topic of Semantic Versioning has appeared multiple
+   times, specially when versioning YANG modules.
+
+   Some of the items defined in YANG [RFC7950] require the use of a
+   unique identifier.  In both NETCONF [RFC6241] and RESTCONF [RFC8040],
+   these identifiers are implemented using names.
+
+   On IoT, they have come up with compact unique identifiers called
+   Schema Item iDentifiers (SID) [I-D.ietf-core-sid] which are
+   themselves registered on IANA.  Every time a company has a new YANG
+   module, they may register it with IANA, which will automatically
+   assign them a SID or a SID range.
+
+
+
+
+Jimenez                   Expires June 14, 2020                 [Page 4]
+
+Internet-Draft             Versioning Problems             December 2019
+
+
+   To track the addition of new features and specially to integrate the
+   specification work with the way developers do version control (e.g.,
+   Git, SVN...) they have come up with a mechanism to also version
+   drafts and assign them to specific GIT commits [I-D.claise-semver].
+
+4.  Security Considerations
+
+   TBD.
+
+5.  IANA Considerations
+
+   None
+
+6.  References
+
+6.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+6.2.  Informative References
+
+   [DATMOD]   "Data Model Versioning", n.d.,
+              <https://github.com/t2trg/wishi/blob/master/
+              slides/2019-11-07-versions.pdf>.
+
+   [I-D.claise-semver]
+              Claise, B., Barnes, R., and J. Clarke, "Semantic
+              Versioning and Structure for IETF Specifications", draft-
+              claise-semver-02 (work in progress), January 2018.
+
+   [I-D.ietf-core-sid]
+              Veillette, M., Pelov, A., and I. Petrov, "YANG Schema Item
+              iDentifier (SID)", draft-ietf-core-sid-07 (work in
+              progress), July 2019.
+
+   [RFC2145]  Mogul, J., Fielding, R., Gettys, J., and H. Frystyk, "Use
+              and Interpretation of HTTP Version Numbers", RFC 2145,
+              DOI 10.17487/RFC2145, May 1997,
+              <https://www.rfc-editor.org/info/rfc2145>.
+
+
+
+
+
+Jimenez                   Expires June 14, 2020                 [Page 5]
+
+Internet-Draft             Versioning Problems             December 2019
+
+
+   [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
+              and A. Bierman, Ed., "Network Configuration Protocol
+              (NETCONF)", RFC 6241, DOI 10.17487/RFC6241, June 2011,
+              <https://www.rfc-editor.org/info/rfc6241>.
+
+   [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
+              RFC 7950, DOI 10.17487/RFC7950, August 2016,
+              <https://www.rfc-editor.org/info/rfc7950>.
+
+   [RFC8040]  Bierman, A., Bjorklund, M., and K. Watsen, "RESTCONF
+              Protocol", RFC 8040, DOI 10.17487/RFC8040, January 2017,
+              <https://www.rfc-editor.org/info/rfc8040>.
+
+   [SEMVER]   "Semantic Versioning", n.d., <http://semver.org>.
+
+Acknowledgments
+
+   This document relies heavily on Carsten Bormann's input on Data model
+   versioning [DATMOD] and on WISHI discussions.
+
+Author's Address
+
+   Jaime Jimenez
+   Ericsson
+
+   Phone: +358-442-992-827
+   Email: jaime@iki.fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Jimenez                   Expires June 14, 2020                 [Page 6]
