@@ -102,7 +102,21 @@ With most software there is a disincentive to roll-up feature bundles into new v
 
 ## Data Model Versioning
 
-TBD
+The IETF defines a data model as {{?RFC3444}}: 
+
+~~~
+      A data model defines concrete data representations at a lower
+      level of abstraction, including implementation- and protocol-
+      specific details.  
+~~~
+
+Examples of data models are SNMP Management Information Base (MIB) modules, World Wide Web Consortium (W3C) Thing Description (TD) Things, YANG modules, Lightweight Machine-to-Machine (LwM2M) Schemas, Open Connectivity Foundation (OCF) Schemas, and so on.
+
+The Data Model itself does not define how data is accessed and retrieved from the endpoints, being, therefore, tied to the specific communication pattern that the system has (e.g., REST methods, Publish/Subscribe operations, or RPC calls) and specific protocols. That would be something that an Interaction Model defines. 
+
+A lot of the confusion caused by similar concepts; information model, data model, interaction model has been discussed in the IoT space in multiple workshops {{?RFC3477}}.
+
+TODO: Data Model versioning comes with its own, additional problems. Often new versions 
 
 # Versioning Examples
 
@@ -135,8 +149,11 @@ Object versioning aims at identifying the LwM2M Object modifications which can b
 
    - an optional Resource is added or removed in the Object
 
-Compatibility is guaranteed between client and server when they interact.
+Compatibility is guaranteed between client and server when they interact. 
 
+
+
+REVISE:  
 Currently IPSO creates a new reusable resource whenever a reusable resource changes. Any object that wants to make use of the new reusable resource has to be updated resulting in a new version of the object. The discussion is around deprecation of versioning altogether {{VERSION}}.
 
 ## YANG versioning

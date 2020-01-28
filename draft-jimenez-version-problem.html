@@ -1032,7 +1032,18 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         <h3 id="name-data-model-versioning">
 <a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-data-model-versioning" class="section-name selfRef">Data Model Versioning</a>
         </h3>
-<p id="section-2.3-1">TBD<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-1">The IETF defines a data model as <span>[<a href="#RFC3444" class="xref">RFC3444</a>]</span>:<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-2.3-2">
+<pre>
+      A data model defines concrete data representations at a lower
+      level of abstraction, including implementation- and protocol-
+      specific details.  
+</pre><a href="#section-2.3-2" class="pilcrow">¶</a>
+</div>
+<p id="section-2.3-3">Examples of data models are SNMP Management Information Base (MIB) modules, World Wide Web Consortium (W3C) Thing Description (TD) Things, YANG modules, Lightweight Machine-to-Machine (LwM2M) Schemas, Open Connectivity Foundation (OCF) Schemas, and so on.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.3-4">The Data Model itself does not define how data is accessed and retrieved from the endpoints, being, therefore, tied to the specific communication pattern that the system has (e.g., REST methods, Publish/Subscribe operations, or RPC calls) and specific protocols. That would be something that an Interaction Model defines.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+<p id="section-2.3-5">A lot of the confusion caused by similar concepts; information model, data model, interaction model has been discussed in the IoT space in multiple workshops <span>[<a href="#RFC3477" class="xref">RFC3477</a>]</span>.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+<p id="section-2.3-6">TODO: Data Model versioning comes with its own, additional problems. Often new versions<a href="#section-2.3-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1083,7 +1094,8 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
 </li>
         </ul>
 <p id="section-3.2-6">Compatibility is guaranteed between client and server when they interact.<a href="#section-3.2-6" class="pilcrow">¶</a></p>
-<p id="section-3.2-7">Currently IPSO creates a new reusable resource whenever a reusable resource changes. Any object that wants to make use of the new reusable resource has to be updated resulting in a new version of the object. The discussion is around deprecation of versioning altogether <span>[<a href="#VERSION" class="xref">VERSION</a>]</span>.<a href="#section-3.2-7" class="pilcrow">¶</a></p>
+<p id="section-3.2-7">REVISE: 
+Currently IPSO creates a new reusable resource whenever a reusable resource changes. Any object that wants to make use of the new reusable resource has to be updated resulting in a new version of the object. The discussion is around deprecation of versioning altogether <span>[<a href="#VERSION" class="xref">VERSION</a>]</span>.<a href="#section-3.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="yang-versioning">
@@ -1155,6 +1167,12 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
 <dt id="RFC2145">[RFC2145]</dt>
         <dd>
 <span class="refAuthor">Mogul, J. C.</span><span class="refAuthor">, Fielding, R.</span><span class="refAuthor">, Gettys, J.</span><span class="refAuthor">, and H. Frystyk</span>, <span class="refTitle">"Use and Interpretation of HTTP Version Numbers"</span>, <span class="seriesInfo">RFC 2145</span>, <span class="seriesInfo">DOI 10.17487/RFC2145</span>, <time datetime="1997-05">May 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2145">https://www.rfc-editor.org/info/rfc2145</a>&gt;</span>. </dd>
+<dt id="RFC3444">[RFC3444]</dt>
+        <dd>
+<span class="refAuthor">Pras, A.</span><span class="refAuthor"> and J. Schoenwaelder</span>, <span class="refTitle">"On the Difference between Information Models and Data Models"</span>, <span class="seriesInfo">RFC 3444</span>, <span class="seriesInfo">DOI 10.17487/RFC3444</span>, <time datetime="2003-01">January 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3444">https://www.rfc-editor.org/info/rfc3444</a>&gt;</span>. </dd>
+<dt id="RFC3477">[RFC3477]</dt>
+        <dd>
+<span class="refAuthor">Kompella, K.</span><span class="refAuthor"> and Y. Rekhter</span>, <span class="refTitle">"Signalling Unnumbered Links in Resource ReSerVation Protocol - Traffic Engineering (RSVP-TE)"</span>, <span class="seriesInfo">RFC 3477</span>, <span class="seriesInfo">DOI 10.17487/RFC3477</span>, <time datetime="2003-01">January 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3477">https://www.rfc-editor.org/info/rfc3477</a>&gt;</span>. </dd>
 <dt id="RFC6241">[RFC6241]</dt>
         <dd>
 <span class="refAuthor">Enns, R., Ed.</span><span class="refAuthor">, Bjorklund, M., Ed.</span><span class="refAuthor">, Schoenwaelder, J., Ed.</span><span class="refAuthor">, and A. Bierman, Ed.</span>, <span class="refTitle">"Network Configuration Protocol (NETCONF)"</span>, <span class="seriesInfo">RFC 6241</span>, <span class="seriesInfo">DOI 10.17487/RFC6241</span>, <time datetime="2011-06">June 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6241">https://www.rfc-editor.org/info/rfc6241</a>&gt;</span>. </dd>

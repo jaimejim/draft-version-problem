@@ -68,15 +68,15 @@ Table of Contents
      2.3.  Data Model Versioning . . . . . . . . . . . . . . . . . .   3
    3.  Versioning Examples . . . . . . . . . . . . . . . . . . . . .   4
      3.1.  HTTP Versioning . . . . . . . . . . . . . . . . . . . . .   4
-     3.2.  IPSO Versioning . . . . . . . . . . . . . . . . . . . . .   4
-     3.3.  YANG versioning . . . . . . . . . . . . . . . . . . . . .   5
+     3.2.  IPSO Versioning . . . . . . . . . . . . . . . . . . . . .   5
+     3.3.  YANG versioning . . . . . . . . . . . . . . . . . . . . .   6
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
    6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
      6.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
      6.2.  Informative References  . . . . . . . . . . . . . . . . .   6
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   7
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   7
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   8
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   8
 
 1.  Introduction
 
@@ -160,7 +160,7 @@ Internet-Draft             Versioning Problems              January 2020
 
 2.3.  Data Model Versioning
 
-   TBD
+   The IETF defines a data model as [RFC3444]:
 
 
 
@@ -169,6 +169,28 @@ Jimenez                   Expires 31 July 2020                  [Page 3]
 
 Internet-Draft             Versioning Problems              January 2020
 
+
+         A data model defines concrete data representations at a lower
+         level of abstraction, including implementation- and protocol-
+         specific details.
+
+   Examples of data models are SNMP Management Information Base (MIB)
+   modules, World Wide Web Consortium (W3C) Thing Description (TD)
+   Things, YANG modules, Lightweight Machine-to-Machine (LwM2M) Schemas,
+   Open Connectivity Foundation (OCF) Schemas, and so on.
+
+   The Data Model itself does not define how data is accessed and
+   retrieved from the endpoints, being, therefore, tied to the specific
+   communication pattern that the system has (e.g., REST methods,
+   Publish/Subscribe operations, or RPC calls) and specific protocols.
+   That would be something that an Interaction Model defines.
+
+   A lot of the confusion caused by similar concepts; information model,
+   data model, interaction model has been discussed in the IoT space in
+   multiple workshops [RFC3477].
+
+   TODO: Data Model versioning comes with its own, additional problems.
+   Often new versions
 
 3.  Versioning Examples
 
@@ -195,6 +217,15 @@ Internet-Draft             Versioning Problems              January 2020
    feature set never triggered a major revisions until HTTP v1.1.  HTTP
    v2 completely replace the protocol layer.
 
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 4]
+
+Internet-Draft             Versioning Problems              January 2020
+
+
 3.2.  IPSO Versioning
 
    IPSO Smart Objects are resources stored on a CoAP server.  IPSO
@@ -216,15 +247,6 @@ Internet-Draft             Versioning Problems              January 2020
    MAJOR revisions, and it is defined in the LwM2M Specification
    ([LWM2MSPEC], section 7.2.  Object Versioning).  Explain Object,
    Explain Resource.
-
-
-
-
-
-Jimenez                   Expires 31 July 2020                  [Page 4]
-
-Internet-Draft             Versioning Problems              January 2020
-
 
    Object versioning aims at identifying the LwM2M Object modifications
    which can be categorized in 2 types defined below:
@@ -248,10 +270,19 @@ Internet-Draft             Versioning Problems              January 2020
    Compatibility is guaranteed between client and server when they
    interact.
 
-   Currently IPSO creates a new reusable resource whenever a reusable
-   resource changes.  Any object that wants to make use of the new
-   reusable resource has to be updated resulting in a new version of the
-   object.  The discussion is around deprecation of versioning
+   REVISE: Currently IPSO creates a new reusable resource whenever a
+   reusable resource changes.  Any object that wants to make use of the
+   new reusable resource has to be updated resulting in a new version of
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 5]
+
+Internet-Draft             Versioning Problems              January 2020
+
+
+   the object.  The discussion is around deprecation of versioning
    altogether [VERSION].
 
 3.3.  YANG versioning
@@ -273,14 +304,6 @@ Internet-Draft             Versioning Problems              January 2020
    specification work with the way developers do version control (e.g.,
    Git, SVN...) they have come up with a mechanism to also version
    drafts and assign them to specific GIT commits [I-D.claise-semver].
-
-
-
-
-Jimenez                   Expires 31 July 2020                  [Page 5]
-
-Internet-Draft             Versioning Problems              January 2020
-
 
 4.  Security Considerations
 
@@ -306,6 +329,15 @@ Internet-Draft             Versioning Problems              January 2020
 6.2.  Informative References
 
    [DATMOD]   "Data Model Versioning",
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 6]
+
+Internet-Draft             Versioning Problems              January 2020
+
+
               <https://github.com/t2trg/wishi/blob/master/
               slides/2019-11-07-versions.pdf>.
 
@@ -329,15 +361,6 @@ Internet-Draft             Versioning Problems              January 2020
               V1_1_1-20190617-A/HTML-Version/OMA-TS-LightweightM2M_Core-
               V1_1_1-20190617-A.html#7-2-0-72-Object-Versioning>.
 
-
-
-
-
-Jimenez                   Expires 31 July 2020                  [Page 6]
-
-Internet-Draft             Versioning Problems              January 2020
-
-
    [OMNA]     "OMNA Registry",
               <http://www.openmobilealliance.org/wp/OMNA/LwM2M/
               LwM2MRegistry.html>.
@@ -347,10 +370,29 @@ Internet-Draft             Versioning Problems              January 2020
               RFC 2145, DOI 10.17487/RFC2145, May 1997,
               <https://www.rfc-editor.org/info/rfc2145>.
 
+   [RFC3444]  Pras, A. and J. Schoenwaelder, "On the Difference between
+              Information Models and Data Models", RFC 3444,
+              DOI 10.17487/RFC3444, January 2003,
+              <https://www.rfc-editor.org/info/rfc3444>.
+
+   [RFC3477]  Kompella, K. and Y. Rekhter, "Signalling Unnumbered Links
+              in Resource ReSerVation Protocol - Traffic Engineering
+              (RSVP-TE)", RFC 3477, DOI 10.17487/RFC3477, January 2003,
+              <https://www.rfc-editor.org/info/rfc3477>.
+
    [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
               and A. Bierman, Ed., "Network Configuration Protocol
               (NETCONF)", RFC 6241, DOI 10.17487/RFC6241, June 2011,
               <https://www.rfc-editor.org/info/rfc6241>.
+
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 7]
+
+Internet-Draft             Versioning Problems              January 2020
+
 
    [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
               RFC 7950, DOI 10.17487/RFC7950, August 2016,
@@ -389,4 +431,18 @@ Author's Address
 
 
 
-Jimenez                   Expires 31 July 2020                  [Page 7]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 8]
