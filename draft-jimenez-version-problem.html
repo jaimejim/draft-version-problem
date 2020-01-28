@@ -1,557 +1,1224 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Problem Details For Versioning in IoT</title>
+<meta content="Jaime Jimenez" name="author">
+<meta content="
+       This document provides some problem details when doing versioning on IoT devices, it illustrates common problems faced by SDOs. 
+    " name="description">
+<meta content="xml2rfc 2.35.0" name="generator">
+<meta content="Version, Problem Details" name="keyword">
+<meta content="draft-jimenez-version-problem-latest" name="ietf.draft">
+<link href="draft-jimenez-version-problem.xml" type="application/rfc+xml" rel="alternate">
+<link href="#copyright" rel="license">
+<style type="text/css">@import url('https://martinthomson.github.io/i-d-template/fonts.css');
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
-  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
-
-  <title>Problem Details For Versioning in IoT</title>
-
-  
-<style type="text/css">/*<![CDATA[*/
-
+html {
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --small-font-size: 14.5px;
+}
 body {
-  font: 16px "Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
-  color: #333;
-  font-size-adjust: 0.5;
-  line-height: 24px;
-  margin: 75px auto;
   max-width: 624px;
+  margin: 75px auto;
   padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
 }
 
-.title, .filename, h1, h2, h3, h4, h5 {
-  font: 16px "Roboto Condensed","Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
-  font-size-adjust: 0.5;
-  font-weight: bold;
-  color: #333;
-  line-height: 100%;
-  margin: 1.2em 0 0.3em;
-}
-.title, #rfc\.title h1 { font-size: 32px; }
-h1, section h1, h2, section h2, section h3, nav h2 { font-size: 20px; }
-h3, section h4, h4, section h5 { font-size: 16px; }
-h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
-  color: #333;
-}
-
-table {
-  margin-left: 0em;
-  border-collapse: collapse;
-}
-th {
-  text-align: left;
-  border-bottom: 2px solid #ddd;
-}
-td {
-  border-top: 1px solid #ddd;
-  vertical-align: top;
-}
-tr:nth-child(2n+1) > td,
-tr:nth-child(2n+1) > th {
-  background-color: #f9f9f9;
-}
-td.reference {
-  max-width: 200px;
-  border-top: none;
-  padding-right: 1em;
-}
-.right {
-  text-align: right;
-}
-
-
-table.header, table#rfc\.headerblock {
-  width: 100%;
-}
-table.header td, table#rfc\.headerblock td {
-  border: none;
-  background-color: transparent;
-  color: black;
-  padding: 0;
-}
-.filename {
-  display: block;
-  color: rgb(119, 119, 119);
-  font-size: 20px;
-  font-weight: normal;
-  line-height: 100%;
-  margin: 10px 0 32px;
-}
-#rfc\.abstract+p, #rfc\.abstract+p code, #rfc\.abstract+p samp, #rfc\.abstract+p tt {
-  font-size: 20px;
-  line-height: 28px;
-}
-
-samp, tt, code, pre, span.tt {
-  font-size: 13.5px;
-  font-family: Consolas, monospace;
-  font-size-adjust: none;
-}
-pre {
-  background-color: #eee;
-  border: 1px solid #ddd;
-  overflow-x: auto;
-  padding: 5px;
-  margin: 5px;
-}
-.figure, caption {
-  font-style: italic;
-  margin: 0 1.5em;
-  text-align: left;
-}
-
-address {
-  margin: 16px 2px;
-  line-height: 20px;
-}
-.vcard {
-  font-style: normal;
-}
-.vcardline {
-  display: block;
-}
-.vcardline .fn, address b {
-  font-weight: normal;
-}
-.vcardline .hidden {
+.ears {
   display: none;
 }
 
-dl {
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+#title {
+  padding: 1em 0 0.2em;
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 26px;
+}
+h4, h5, h6 {
+  font-size: 18px;
+  line-height: 22px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p, #abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 18px;
+  line-height: 24px;
+}
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div, span {
+  position: relative;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 1em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
   margin-left: 1em;
 }
-dl.dl-horizontal: {
-  margin-left: 0;
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
 }
 dl > dt {
   float: left;
   margin-right: 1em;
 }
-dl.nohang > dt {
-  float: none;
-}
 dl > dd {
-  margin-bottom: .5em;
+  margin-bottom: .8em;
+  min-height: 1.3em;
 }
-dl.compact > dd {
+dl.compact > dd, .dlCompact > dd {
   margin-bottom: 0em;
 }
 dl > dd > dl {
   margin-top: 0.5em;
   margin-bottom: 0em;
 }
-ul.empty {
-  list-style-type: none;
-}
-ul.empty li {
-  margin-top: .5em;
-}
 
-hr {
-  border: 0;
-  border-top: 1px solid #eee;
-}
-hr.noprint {
-  display: none;
-}
-
-a {
+/* links */
+a, a[href].selfRef:hover {
   text-decoration: none;
 }
+a[href].selfRef {
+  color: var(--text-color);
+}
 a[href] {
-  color: #2a6496;
+  color: var(--link-color);
 }
 a[href]:hover {
-  background-color: #eee;
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
 }
 
-p, ol, ul, li {
-  padding: 0;
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px 'Oxygen Mono', monospace;
 }
-p {
+pre {
+  border: 1px solid var(--line-color);
+  line-height: 17px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
   margin: 0.5em 0;
 }
-ol, ul {
-  margin: 0.2em 0 0.2em 2em;
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
 }
-li {
-  margin: 0.2em 0;
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
 }
-address {
-  font-style: normal;
+@media screen {
+  pre {
+    display: inline-block;
+    overflow-x: auto;
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  pre + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
 }
 
-ul.toc ul {
-  margin: 0 0 0 2em;
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
 }
-ul.toc li {
-  list-style: none;
+blockquote {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.5em 0.75em;
+}
+th {
+  text-align: left;
+  background-color: #eee;
+}
+tr:nth-child(2n) > td {
+  background-color: var(--background-color);
+}
+tr:nth-child(2n+1) > td {
+  background-color: var(--highlight-color);
+}
+thead+tbody tr:nth-child(2n) > td {
+  background-color: var(--highlight-color);
+}
+thead+tbody tr:nth-child(2n+1) > td {
+  background-color: var(--background-color);
+}
+table caption {
+  font-style: italic;
+  margin: 0.3em 0;
+  padding: 0;
+  text-align: left;
+}
+table p {
+  /* XXX to avoid bottom margin on table row signifiers. If paragraphs should
+     be allowed within tables more generally, it would be far better to select on a class. */
   margin: 0;
 }
 
-@media screen and (min-width: 924px) {
-  body {
-    padding-right: 350px;
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  visibility: hidden;
+  user-select: none;
+}
+a.pilcrow[href] { color: #ddd; }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media screen {
+  :hover > a.pilcrow {
+    visibility: visible;
   }
-  body>ul.toc, body>#rfc\.toc {
+  a.pilcrow:hover {
+    background-color: transparent;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 8em;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  margin: 0;
+  clear: left;
+  float: left;
+  text-align: right;
+}
+#identifiers dd {
+  margin: 0 0 0 calc(1em + var(--identifier-width));
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 600px) {
+  .index ul {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  .index ul ul {
+    column-count: 1;
+    column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 600px) {
+  #authors-addresses {
+    display: relative;
+    padding: 32px 0 0;
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #name-authors-addresses {
+    position: absolute;
+    top: 0px;
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+  }
+}
+
+/* temporary notes */
+.rfcEditorRemove::before {
+  position: absolute;
+  top: 0.2em;
+  right: 0.2em;
+  padding: 0.2em;
+  content: "The RFC Editor will remove this note";
+  color: #b76427;
+  background-color: rgba(249, 232, 105, 0.3);
+}
+.rfcEditorRemove {
+  position: relative;
+  padding-top: 1.8em;
+  background-color: rgba(249, 232, 105, 0.3);
+  border-radius: 3px;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 953px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 954px) {
+  body {
+    padding-right: 380px;
+  }
+  #toc {
     position: fixed;
     bottom: 0;
     right: 0;
-    right: calc(50vw - 500px);
-    width: 300px;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
     z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
     overflow: auto;
     overscroll-behavior: contain;
+    scrollbar-width: thin;
   }
-  body>#rfc\.toc {
-    top: 55px;
+  #toc nav > ul  {
+    margin-bottom: 2em;
   }
-  body>ul.toc {
-    top: 100px;
-  }
-
-  ul.toc {
+  #toc ul {
     margin: 0 0 0 4px;
-    font-size: 12px;
-    line-height: 20px;
+    font-size: var(--small-font-size);
   }
-  ul.toc ul {
-    margin-left: 1.2em;
+  #toc ul p, #toc ul li {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
   }
 }
 
-.github-fork-ribbon-wrapper {
-  display: none;
-}
-@media screen and (min-width: 800px) {
-  /* "Fork me on GitHub" CSS ribbon based on
-   * https://github.com/simonwhitaker/github-fork-ribbon-css
-   */
-  .github-fork-ribbon {
-    position: absolute;
-    padding: 2px 0;
-    background-color: #a00;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
-    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-    pointer-events: auto;
-
-    top: 38px;
-    right: -45px;
-
-    transform: rotate(45deg);
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
   }
-
-  .github-fork-ribbon a[href],
-  .github-fork-ribbon a[href]:hover {
-    color: #fff;
-    background-color: transparent;
-    text-decoration: none;
-    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
-    text-align: center;
-
-    width: 190px;
-    line-height: 18px;
-
-    display: inline-block;
-    padding: 2px 0;
-
-    border: 1.5px dotted #fff;
-    border-color: rgba(255, 255, 255, 0.6);
+  @top-center {
+    content: normal;
+    border: none;
   }
-
-  .github-fork-ribbon-wrapper {
-    display: block;
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    overflow: hidden;
-    top: 0; right: 0;
-    z-index: 2;
-    pointer-events: none;
+  @top-right {
+    content: normal;
+    border: none;
   }
 }
-@media screen and (min-width: 1000px) {
-  .github-fork-ribbon-wrapper {
-    position: fixed;
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table td.text-left,
+table th.text-left {
+  text-align: left;
+}
+table td.text-center,
+table th.text-center {
+  text-align: center;
+}
+table td.text-right,
+table th.text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Provide table alignment support.  We can't use the alignX classes above
+   since they do unwanted things with caption and other styling. */
+table.right {
+ margin-left: auto;
+ margin-right: 0;
+}
+table.center {
+ margin-left: auto;
+ margin-right: auto;
+}
+table.left {
+ margin-left: 0;
+ margin-right: auto;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+
+@media print {
+  .toplink {
+    display: none;
   }
-/*]]>*/</style>
-<meta name="viewport" content="initial-scale=1.0">
 
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
 
-  <link href="#rfc.toc" rel="Contents">
-<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
-<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Requirements Language">
-<link href="#rfc.section.2" rel="Chapter" title="2 Types of Changes">
-<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Semantic Versioning">
-<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Software Evolution">
-<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Data Model Versioning">
-<link href="#rfc.section.3" rel="Chapter" title="3 Versioning Examples">
-<link href="#rfc.section.3.1" rel="Chapter" title="3.1 HTTP Versioning">
-<link href="#rfc.section.3.2" rel="Chapter" title="3.2 IPSO Versioning">
-<link href="#rfc.section.3.3" rel="Chapter" title="3.3 YANG versioning">
-<link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations">
-<link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
-<link href="#rfc.references" rel="Chapter" title="6 References">
-<link href="#rfc.references.1" rel="Chapter" title="6.1 Normative References">
-<link href="#rfc.references.2" rel="Chapter" title="6.2 Informative References">
-<link href="#rfc.acknowledgments" rel="Chapter">
-<link href="#rfc.authors" rel="Chapter">
+  /* Avoid page breaks inside dl and author address entries */
+  dd {
+    page-break-before: avoid;
+  }
+  .vcard {
+    page-break-inside: avoid;
+  }
 
-
-  <meta name="generator" content="xml2rfc version 2.35.0 - https://tools.ietf.org/tools/xml2rfc" />
-  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
-
-  <meta name="dct.creator" content="Jimenez, J." />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-jimenez-version-problem-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-12-12" />
-  <meta name="dct.abstract" content="This document provides some problem details when doing versioning on IoT devices, it illustrates common problems faced by SDOs." />
-  <meta name="description" content="This document provides some problem details when doing versioning on IoT devices, it illustrates common problems faced by SDOs." />
-
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+</style>
+<link href="rfc-local.css" type="text/css" rel="stylesheet">
 </head>
-
 <body>
-
-  <table class="header">
-    <tbody>
-    
-    	<tr>
-<td class="left">IPSO Working Group</td>
-<td class="right">J. Jimenez</td>
-</tr>
-<tr>
+<script src="metadata.min.js"></script>
+<table class="ears">
+<thead><tr>
 <td class="left">Internet-Draft</td>
-<td class="right">Ericsson</td>
-</tr>
-<tr>
-<td class="left">Intended status: Standards Track</td>
-<td class="right">December 12, 2019</td>
-</tr>
-<tr>
-<td class="left">Expires: June 14, 2020</td>
-<td class="right"></td>
-</tr>
-
-    	
-    </tbody>
-  </table>
-
-  <p class="title">Problem Details For Versioning in IoT<br />
-  <span class="filename">draft-jimenez-version-problem-latest</span></p>
-  
-  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-<p>This document provides some problem details when doing versioning on IoT devices, it illustrates common problems faced by SDOs.</p>
-<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
-<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
-<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
-<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on June 14, 2020.</p>
-<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
-<p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
-<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
-
-  
-  <hr class="noprint" />
-  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
-  <ul class="toc">
-
-  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+<td class="center">Versioning Problems</td>
+<td class="right">January 2020</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Jimenez</td>
+<td class="center">Expires 31 July 2020</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">IPSO Working Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-jimenez-version-problem-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2020-01-28" class="published">28 January 2020</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2020-07-31">31 July 2020</time></dd>
+<dt class="label-authors">Author:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">J. Jimenez</div>
+<div class="org">Ericsson</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Problem Details For Versioning in IoT</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document provides some problem details when doing versioning on IoT devices, it illustrates common problems faced by SDOs.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 31 July 2020.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2020 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Simplified BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.1.2.1">
+                <p id="section-toc.1-1.1.2.1.1"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-requirements-language" class="xref">Requirements Language</a><a href="#section-toc.1-1.1.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<ul><li>1.1.   <a href="#rfc.section.1.1">Requirements Language</a>
+            </ul>
 </li>
-</ul><li>2.   <a href="#rfc.section.2">Types of Changes</a>
+          <li class="toc ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1"><a href="#section-2" class="xref">2</a>.  <a href="#name-types-of-changes" class="xref">Types of Changes</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.2.2.1">
+                <p id="section-toc.1-1.2.2.1.1"><a href="#section-2.1" class="xref">2.1</a>.  <a href="#name-semantic-versioning" class="xref">Semantic Versioning</a><a href="#section-toc.1-1.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<ul><li>2.1.   <a href="#rfc.section.2.1">Semantic Versioning</a>
+              <li class="toc ulEmpty" id="section-toc.1-1.2.2.2">
+                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="xref">2.2</a>.  <a href="#name-software-evolution" class="xref">Software Evolution</a><a href="#section-toc.1-1.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li>2.2.   <a href="#rfc.section.2.2">Software Evolution</a>
+              <li class="toc ulEmpty" id="section-toc.1-1.2.2.3">
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="xref">2.3</a>.  <a href="#name-data-model-versioning" class="xref">Data Model Versioning</a><a href="#section-toc.1-1.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
-<li>2.3.   <a href="#rfc.section.2.3">Data Model Versioning</a>
+            </ul>
 </li>
-</ul><li>3.   <a href="#rfc.section.3">Versioning Examples</a>
+          <li class="toc ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-versioning-examples" class="xref">Versioning Examples</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-http-versioning" class="xref">HTTP Versioning</a><a href="#section-toc.1-1.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<ul><li>3.1.   <a href="#rfc.section.3.1">HTTP Versioning</a>
+              <li class="toc ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-ipso-versioning" class="xref">IPSO Versioning</a><a href="#section-toc.1-1.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li>3.2.   <a href="#rfc.section.3.2">IPSO Versioning</a>
+              <li class="toc ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-yang-versioning" class="xref">YANG versioning</a><a href="#section-toc.1-1.3.2.3.1" class="pilcrow">¶</a></p>
 </li>
-<li>3.3.   <a href="#rfc.section.3.3">YANG versioning</a>
+            </ul>
 </li>
-</ul><li>4.   <a href="#rfc.section.4">Security Considerations</a>
+          <li class="toc ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
-<li>5.   <a href="#rfc.section.5">IANA Considerations</a>
+          <li class="toc ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
-<li>6.   <a href="#rfc.references">References</a>
+          <li class="toc ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty">
+<li class="toc ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.6.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<ul><li>6.1.   <a href="#rfc.references.1">Normative References</a>
+              <li class="toc ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.6.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li>6.2.   <a href="#rfc.references.2">Informative References</a>
+            </ul>
 </li>
-</ul><li><a href="#rfc.acknowledgments">Acknowledgments</a>
+          <li class="toc ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-appendix.a" class="xref"></a><a href="#name-acknowledgments" class="xref">Acknowledgments</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
-<li><a href="#rfc.authors">Author's Address</a>
+          <li class="toc ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-appendix.b" class="xref"></a><a href="#name-authors-address" class="xref">Author's Address</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
-
-
-  </ul>
-
-  <h1 id="rfc.section.1">
-<a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a>
-</h1>
-<p id="rfc.section.1.p.1">As software is improved over time, new releases are provided with new features or with fixes to known problems. To distinguish between releases you have specific version numbers that identify the release. They operate on the assumption that development runs in a linear progression with little complexity.</p>
-<p id="rfc.section.1.p.2">However, as systems grow and become interdependent it is more likely to enter into dependency and backwards compatibility issues. IoT is no different in this regard.</p>
-<h1 id="rfc.section.1.1">
-<a href="#rfc.section.1.1">1.1.</a> <a href="#requirements-language" id="requirements-language">Requirements Language</a>
-</h1>
-<p id="rfc.section.1.1.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;NOT RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in BCP&#160;14 <a href="#RFC2119" class="xref">[RFC2119]</a> <a href="#RFC8174" class="xref">[RFC8174]</a> when, and only when, they appear in all capitals, as shown here.</p>
-<h1 id="rfc.section.2">
-<a href="#rfc.section.2">2.</a> <a href="#types-of-changes" id="types-of-changes">Types of Changes</a>
-</h1>
-<p id="rfc.section.2.p.1">Changes can be additions or extensions to existing software, bug fixes or complete reinterpretations of existing interactions.</p>
-<p id="rfc.section.2.p.2">Changes need to be <em>backwards compatible</em> with legacy devices and systems without breaking existing APIs and/or format assumptions, so that your evolved code can work with the legacy system. They need also to be able to be <em>forwards compatible</em> towards future extensions added to them, they need to tolerate different input without breaking up.</p>
-<h1 id="rfc.section.2.1">
-<a href="#rfc.section.2.1">2.1.</a> <a href="#semantic-versioning" id="semantic-versioning">Semantic Versioning</a>
-</h1>
-<p id="rfc.section.2.1.p.1">On most software systems and Web APIs there is the concept of &#8220;Semantic Versioning&#8221; <a href="#SEMVER" class="xref">[SEMVER]</a>, which provides a categorization as follows:</p>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">As software is improved over time, new releases are provided with new features or with fixes to known problems. To distinguish between releases you have specific version numbers that identify the release. They operate on the assumption that development runs in a linear progression with little complexity.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">However, as systems grow and become interdependent it is more likely to enter into dependency and backwards compatibility issues. IoT is no different in this regard.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<div id="requirements-language">
+<section id="section-1.1">
+        <h3 id="name-requirements-language">
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-requirements-language" class="section-name selfRef">Requirements Language</a>
+        </h3>
+<p id="section-1.1-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+"MAY", and "OPTIONAL" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="types-of-changes">
+<section id="section-2">
+      <h2 id="name-types-of-changes">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-types-of-changes" class="section-name selfRef">Types of Changes</a>
+      </h2>
+<p id="section-2-1">Changes can be additions or extensions to existing software, bug fixes or complete reinterpretations of existing interactions.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">Changes need to be <em>backwards compatible</em> with legacy devices and systems without breaking existing APIs and/or format assumptions, so that your evolved code can work with the legacy system. They need also to be able to be <em>forwards compatible</em> towards future extensions added to them, they need to tolerate different input without breaking up.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<div id="semantic-versioning">
+<section id="section-2.1">
+        <h3 id="name-semantic-versioning">
+<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-semantic-versioning" class="section-name selfRef">Semantic Versioning</a>
+        </h3>
+<p id="section-2.1-1">On most software systems and Web APIs there is the concept of "Semantic Versioning" <span>[<a href="#SEMVER" class="xref">SEMVER</a>]</span>, which provides a categorization as follows:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-2.1-2">
 <pre>
-Given a version number MAJOR.MINOR.PATCH, increment the:
-
-- MAJOR version when you make incompatible API changes,
-- MINOR version when you add functionality in a backwards compatible manner, and
-- PATCH version when you make backwards compatible bug fixes.
-</pre>
-<h1 id="rfc.section.2.2">
-<a href="#rfc.section.2.2">2.2.</a> <a href="#software-evolution" id="software-evolution">Software Evolution</a>
-</h1>
-<p id="rfc.section.2.2.p.1">In scenarios where interactions are between two endpoints (e.g., producer/consumer, client/server, &#8230;) there is a distinction on how software changes are expected to happen.</p>
-<p id="rfc.section.2.2.p.2">When the data sender can enforce changes on the consumer, versioning is indicated and the consumer has no say on the new version.</p>
-<p id="rfc.section.2.2.p.3">When both sides have a say they may negotiate what changes can be applied and the producer also needs to adapt to the requirements of the consumer, this is common in backwards compatibility breaking changes.</p>
-<p id="rfc.section.2.2.p.4">RFC791 defines the &#8220;robustness principle&#8221; which places the burden of handling backwards compatibility on the consumer/server.</p>
+   Given a version number MAJOR.MINOR.PATCH, increment the:
+   MAJOR version when you make incompatible API changes,
+   MINOR version when you add functionality in a backwards compatible manner, and
+   PATCH version when you make backwards compatible bug fixes.
+</pre><a href="#section-2.1-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="software-evolution">
+<section id="section-2.2">
+        <h3 id="name-software-evolution">
+<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-software-evolution" class="section-name selfRef">Software Evolution</a>
+        </h3>
+<p id="section-2.2-1">In scenarios where interactions are between two endpoints (e.g., producer/consumer, client/server, ...) there is a distinction on how software changes are expected to happen.<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.2-2">When the data sender can enforce changes on the consumer, versioning is indicated and the consumer has no say on the new version.<a href="#section-2.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.2-3">When both sides have a say they may negotiate what changes can be applied and the producer also needs to adapt to the requirements of the consumer, this is common in backwards compatibility breaking changes.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
+<p id="section-2.2-4">RFC791 defines the "robustness principle" which places the burden of handling backwards compatibility on the consumer/server.<a href="#section-2.2-4" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-2.2-5">
 <pre>
    an implementation must be conservative in its sending
    behavior, and liberal in its receiving behavior.
-</pre>
-<p id="rfc.section.2.2.p.5">Of course, in IoT the client/server roles may change depending on the protocol used and other considerations like computing power, memory or connectivity might be more important.</p>
-<p id="rfc.section.2.2.p.6">With most software there is a disincentive to roll-up feature bundles into new versions as it creates flag day between producers and consumers.</p>
-<h1 id="rfc.section.2.3">
-<a href="#rfc.section.2.3">2.3.</a> <a href="#data-model-versioning" id="data-model-versioning">Data Model Versioning</a>
-</h1>
-<p id="rfc.section.2.3.p.1">TBD</p>
-<h1 id="rfc.section.3">
-<a href="#rfc.section.3">3.</a> <a href="#versioning-examples" id="versioning-examples">Versioning Examples</a>
-</h1>
-<p id="rfc.section.3.p.1">While <a href="#SEMVER" class="xref">[SEMVER]</a> formatting works fine for versioning of interfaces and protocols it might be different for <em>versioning of data formats</em>. Here we see some example protocols and data models and how they have dealt with versioning.</p>
-<h1 id="rfc.section.3.1">
-<a href="#rfc.section.3.1">3.1.</a> <a href="#http-versioning" id="http-versioning">HTTP Versioning</a>
-</h1>
-<p id="rfc.section.3.1.p.1">The Hypertext Transfer Protocol (HTTP) also includes a protocol versioning scheme to indicate which version of the protocol is used <a href="#RFC2145" class="xref">[RFC2145]</a>. This pattern is common in many other protocols.</p>
-<p id="rfc.section.3.1.p.2">Versions of the protocol is indicated using the <em>major.minor</em> numbering. The <em>minor</em> number is incremented when the changes made to the protocol add features which do not change the general message parsing algorithm, but which may add to the message semantics and imply additional capabilities of the sender. The <em>major</em> number is incremented when the format of a message within the protocol is changed.</p>
-<p id="rfc.section.3.1.p.3">HTTP since v1.0 had multiple modifications but somehow the existing feature set never triggered a major revisions until HTTP v1.1. HTTP v2 completely replace the protocol layer.</p>
-<h1 id="rfc.section.3.2">
-<a href="#rfc.section.3.2">3.2.</a> <a href="#ipso-versioning" id="ipso-versioning">IPSO Versioning</a>
-</h1>
-<p id="rfc.section.3.2.p.1">TBD</p>
-<h1 id="rfc.section.3.3">
-<a href="#rfc.section.3.3">3.3.</a> <a href="#yang-versioning" id="yang-versioning">YANG versioning</a>
-</h1>
-<p id="rfc.section.3.3.p.1">On the IETF the topic of Semantic Versioning has appeared multiple times, specially when versioning YANG modules.</p>
-<p id="rfc.section.3.3.p.2">Some of the items defined in YANG <a href="#RFC7950" class="xref">[RFC7950]</a> require the use of a unique identifier.  In both NETCONF <a href="#RFC6241" class="xref">[RFC6241]</a> and RESTCONF <a href="#RFC8040" class="xref">[RFC8040]</a>, these identifiers are implemented using names.</p>
-<p id="rfc.section.3.3.p.3">On IoT, they have come up with compact unique identifiers called Schema Item iDentifiers (SID) <a href="#I-D.ietf-core-sid" class="xref">[I-D.ietf-core-sid]</a> which are themselves registered on IANA. Every time a company has a new YANG module, they may register it with IANA, which will automatically assign them a SID or a SID range.</p>
-<p id="rfc.section.3.3.p.4">To track the addition of new features and specially to integrate the specification work with the way developers do version control (e.g., Git, SVN&#8230;) they have come up with a mechanism to also version drafts and assign them to specific GIT commits <a href="#I-D.claise-semver" class="xref">[I-D.claise-semver]</a>.</p>
-<h1 id="rfc.section.4">
-<a href="#rfc.section.4">4.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
-</h1>
-<p id="rfc.section.4.p.1">TBD.</p>
-<h1 id="rfc.section.5">
-<a href="#rfc.section.5">5.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
-</h1>
-<p id="rfc.section.5.p.1">None</p>
-<h1 id="rfc.references">
-<a href="#rfc.references">6.</a> References</h1>
-<h1 id="rfc.references.1">
-<a href="#rfc.references.1">6.1.</a> Normative References</h1>
-<table><tbody>
-<tr>
-<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
-<td class="top">
-<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8174">[RFC8174]</b></td>
-<td class="top">
-<a>Leiba, B.</a>, "<a href="https://tools.ietf.org/html/rfc8174">Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</a>", BCP 14, RFC 8174, DOI 10.17487/RFC8174, May 2017.</td>
-</tr>
-</tbody></table>
-<h1 id="rfc.references.2">
-<a href="#rfc.references.2">6.2.</a> Informative References</h1>
-<table><tbody>
-<tr>
-<td class="reference"><b id="DATMOD">[DATMOD]</b></td>
-<td class="top">"<a href="https://github.com/t2trg/wishi/blob/master/slides/2019-11-07-versions.pdf">Data Model Versioning</a>", n.d..</td>
-</tr>
-<tr>
-<td class="reference"><b id="I-D.claise-semver">[I-D.claise-semver]</b></td>
-<td class="top">
-<a>Claise, B.</a>, <a>Barnes, R.</a> and <a>J. Clarke</a>, "<a href="https://tools.ietf.org/html/draft-claise-semver-02">Semantic Versioning and Structure for IETF Specifications</a>", Internet-Draft draft-claise-semver-02, January 2018.</td>
-</tr>
-<tr>
-<td class="reference"><b id="I-D.ietf-core-sid">[I-D.ietf-core-sid]</b></td>
-<td class="top">
-<a>Veillette, M.</a>, <a>Pelov, A.</a> and <a>I. Petrov</a>, "<a href="https://tools.ietf.org/html/draft-ietf-core-sid-07">YANG Schema Item iDentifier (SID)</a>", Internet-Draft draft-ietf-core-sid-07, July 2019.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC2145">[RFC2145]</b></td>
-<td class="top">
-<a>Mogul, J.</a>, <a>Fielding, R.</a>, <a>Gettys, J.</a> and <a>H. Frystyk</a>, "<a href="https://tools.ietf.org/html/rfc2145">Use and Interpretation of HTTP Version Numbers</a>", RFC 2145, DOI 10.17487/RFC2145, May 1997.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC6241">[RFC6241]</b></td>
-<td class="top">
-<a>Enns, R.</a>, <a>Bjorklund, M.</a>, <a>Schoenwaelder, J.</a> and <a>A. Bierman</a>, "<a href="https://tools.ietf.org/html/rfc6241">Network Configuration Protocol (NETCONF)</a>", RFC 6241, DOI 10.17487/RFC6241, June 2011.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC7950">[RFC7950]</b></td>
-<td class="top">
-<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc7950">The YANG 1.1 Data Modeling Language</a>", RFC 7950, DOI 10.17487/RFC7950, August 2016.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8040">[RFC8040]</b></td>
-<td class="top">
-<a>Bierman, A.</a>, <a>Bjorklund, M.</a> and <a>K. Watsen</a>, "<a href="https://tools.ietf.org/html/rfc8040">RESTCONF Protocol</a>", RFC 8040, DOI 10.17487/RFC8040, January 2017.</td>
-</tr>
-<tr>
-<td class="reference"><b id="SEMVER">[SEMVER]</b></td>
-<td class="top">"<a href="http://semver.org">Semantic Versioning</a>", n.d..</td>
-</tr>
-</tbody></table>
-<h1 id="rfc.acknowledgments"><a href="#rfc.acknowledgments">Acknowledgments</a></h1>
-<p id="rfc.section.A.p.1">This document relies heavily on Carsten Bormann&#8217;s input on Data model versioning <a href="#DATMOD" class="xref">[DATMOD]</a> and on WISHI discussions.</p>
-<h1 id="rfc.authors"><a href="#rfc.authors">Author's Address</a></h1>
-<div class="avoidbreak">
-  <address class="vcard">
-	<span class="vcardline">
-	  <span class="fn">Jaime Jimenez</span> 
-	  <span class="n hidden">
-		<span class="family-name">Jimenez</span>
-	  </span>
-	</span>
-	<span class="org vcardline">Ericsson</span>
-	<span class="adr">
-	  
-	  <span class="vcardline">
-		<span class="locality"></span> 
-		<span class="region"></span>
-		<span class="code"></span>
-	  </span>
-	  <span class="country-name vcardline"></span>
-	</span>
-	<span class="vcardline">Phone: +358-442-992-827</span>
-
-<span class="vcardline">EMail: <a href="mailto:jaime@iki.fi">jaime@iki.fi</a></span>
-
-  </address>
+</pre><a href="#section-2.2-5" class="pilcrow">¶</a>
 </div>
+<p id="section-2.2-6">Of course, in IoT the client/server roles may change depending on the protocol used and other considerations like computing power, memory or connectivity might be more important.<a href="#section-2.2-6" class="pilcrow">¶</a></p>
+<p id="section-2.2-7">With most software there is a disincentive to roll-up feature bundles into new versions as it creates flag day between producers and consumers.<a href="#section-2.2-7" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="data-model-versioning">
+<section id="section-2.3">
+        <h3 id="name-data-model-versioning">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-data-model-versioning" class="section-name selfRef">Data Model Versioning</a>
+        </h3>
+<p id="section-2.3-1">TBD<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="versioning-examples">
+<section id="section-3">
+      <h2 id="name-versioning-examples">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-versioning-examples" class="section-name selfRef">Versioning Examples</a>
+      </h2>
+<p id="section-3-1">While <span>[<a href="#SEMVER" class="xref">SEMVER</a>]</span> formatting works fine for versioning of interfaces and protocols it might be different for <em>versioning of data formats</em>. Here we see some example protocols and data models and how they have dealt with versioning.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div id="http-versioning">
+<section id="section-3.1">
+        <h3 id="name-http-versioning">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-http-versioning" class="section-name selfRef">HTTP Versioning</a>
+        </h3>
+<p id="section-3.1-1">The Hypertext Transfer Protocol (HTTP) also includes a protocol versioning scheme to indicate which version of the protocol is used <span>[<a href="#RFC2145" class="xref">RFC2145</a>]</span>. This pattern is common in many other protocols.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">Versions of the protocol is indicated using the <em>major.minor</em> numbering. The <em>minor</em> number is incremented when the changes made to the protocol add features which do not change the general message parsing algorithm, but which may add to the message semantics and imply additional capabilities of the sender. The <em>major</em> number is incremented when the format of a message within the protocol is changed.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.1-3">HTTP since v1.0 had multiple modifications but somehow the existing feature set never triggered a major revisions until HTTP v1.1. HTTP v2 completely replace the protocol layer.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ipso-versioning">
+<section id="section-3.2">
+        <h3 id="name-ipso-versioning">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-ipso-versioning" class="section-name selfRef">IPSO Versioning</a>
+        </h3>
+<p id="section-3.2-1">IPSO Smart Objects are resources stored on a CoAP server. IPSO provides an <span>[<a href="#SCHEMA" class="xref">SCHEMA</a>]</span> which is the same used by LwM2M. IPSO Objects are defined in such a way that they do not depend on the use of CoAP, any RESTful protocol is sufficient. Nevertheless, to develop a complete and interoperable solution the object model is based on the Open Mobile Alliance Lightweight Specification (OMA LWM2M) and comes with an object registry Each object is stored in a repository, the <span>[<a href="#OMNA" class="xref">OMNA</a>]</span> Registry.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">In IPSO the versioning problem is manyfold; Object Versioning, Repository Versioning, Enabler Version, Schema Version.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-3">In scope of this document is the problem of Object Versioning. IPSO uses a 16 bit number space to identify objects (e.g., 3303 identifies the object for "temperature"). IPSO uses a versioning similar to that of <span>[<a href="#SEMVER" class="xref">SEMVER</a>]</span>, using the concept of MINOR and MAJOR revisions, and it is defined in the <span>[<a href="#LWM2MSPEC" class="xref">LWM2MSPEC</a>]</span> (section 7.2. Object Versioning). Explain Object, Explain Resource.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.2-4">Currently IPSO creates a new reusable resource whenever a reusable resource changes. Any object that wants to make use of the new reusable resource has to be updated resulting in a new version of the object. The discussion is around deprecation of versioning altogether <span>[<a href="#VERSION" class="xref">VERSION</a>]</span>.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="yang-versioning">
+<section id="section-3.3">
+        <h3 id="name-yang-versioning">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-yang-versioning" class="section-name selfRef">YANG versioning</a>
+        </h3>
+<p id="section-3.3-1">On the IETF the topic of Semantic Versioning has appeared multiple times, specially when versioning YANG modules.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">Some of the items defined in YANG <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span> require the use of a unique identifier.  In both NETCONF <span>[<a href="#RFC6241" class="xref">RFC6241</a>]</span> and RESTCONF <span>[<a href="#RFC8040" class="xref">RFC8040</a>]</span>, these identifiers are implemented using names.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">On IoT, they have come up with compact unique identifiers called Schema Item iDentifiers (SID) <span>[<a href="#I-D.ietf-core-sid" class="xref">I-D.ietf-core-sid</a>]</span> which are themselves registered on IANA. Every time a company has a new YANG module, they may register it with IANA, which will automatically assign them a SID or a SID range.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.3-4">To track the addition of new features and specially to integrate the specification work with the way developers do version control (e.g., Git, SVN...) they have come up with a mechanism to also version drafts and assign them to specific GIT commits <span>[<a href="#I-D.claise-semver" class="xref">I-D.claise-semver</a>]</span>.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-4">
+      <h2 id="name-security-considerations">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-4-1">TBD.<a href="#section-4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-5">
+      <h2 id="name-iana-considerations">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-5-1">None<a href="#section-5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<section id="section-6">
+      <h2 id="name-references">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<section id="section-6.1">
+        <h3 id="name-normative-references">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dt id="RFC8174">[RFC8174]</dt>
+      <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+</dl>
+</section>
+<section id="section-6.2">
+        <h3 id="name-informative-references">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="DATMOD">[DATMOD]</dt>
+        <dd>
+<span class="refTitle">"Data Model Versioning"</span>, <time></time>, <span>&lt;<a href="https://github.com/t2trg/wishi/blob/master/slides/2019-11-07-versions.pdf">https://github.com/t2trg/wishi/blob/master/slides/2019-11-07-versions.pdf</a>&gt;</span>. </dd>
+<dt id="I-D.claise-semver">[I-D.claise-semver]</dt>
+        <dd>
+<span class="refAuthor">Claise, B.</span><span class="refAuthor">, Barnes, R.</span><span class="refAuthor">, and J. Clarke</span>, <span class="refTitle">"Semantic Versioning and Structure for IETF Specifications"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-claise-semver-02</span>, <time datetime="2018-01-17">17 January 2018</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-claise-semver-02.txt">http://www.ietf.org/internet-drafts/draft-claise-semver-02.txt</a>&gt;</span>. </dd>
+<dt id="I-D.ietf-core-sid">[I-D.ietf-core-sid]</dt>
+        <dd>
+<span class="refAuthor">Veillette, M.</span><span class="refAuthor">, Pelov, A.</span><span class="refAuthor">, and I. Petrov</span>, <span class="refTitle">"YANG Schema Item iDentifier (SID)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-sid-09</span>, <time datetime="2020-01-23">23 January 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-sid-09.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-sid-09.txt</a>&gt;</span>. </dd>
+<dt id="LWM2MSPEC">[LWM2MSPEC]</dt>
+        <dd>
+<span class="refTitle">"LwM2M Specification"</span>, <time></time>, <span>&lt;<a href="http://www.openmobilealliance.org/release/LightweightM2M/V1_1_1-20190617-A/HTML-Version/OMA-TS-LightweightM2M_Core-V1_1_1-20190617-A.html#7-2-0-72-Object-Versioning">http://www.openmobilealliance.org/release/LightweightM2M/V1_1_1-20190617-A/HTML-Version/OMA-TS-LightweightM2M_Core-V1_1_1-20190617-A.html#7-2-0-72-Object-Versioning</a>&gt;</span>. </dd>
+<dt id="OMNA">[OMNA]</dt>
+        <dd>
+<span class="refTitle">"OMNA Registry"</span>, <time></time>, <span>&lt;<a href="http://www.openmobilealliance.org/wp/OMNA/LwM2M/LwM2MRegistry.html">http://www.openmobilealliance.org/wp/OMNA/LwM2M/LwM2MRegistry.html</a>&gt;</span>. </dd>
+<dt id="RFC2145">[RFC2145]</dt>
+        <dd>
+<span class="refAuthor">Mogul, J. C.</span><span class="refAuthor">, Fielding, R.</span><span class="refAuthor">, Gettys, J.</span><span class="refAuthor">, and H. Frystyk</span>, <span class="refTitle">"Use and Interpretation of HTTP Version Numbers"</span>, <span class="seriesInfo">RFC 2145</span>, <span class="seriesInfo">DOI 10.17487/RFC2145</span>, <time datetime="1997-05">May 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2145">https://www.rfc-editor.org/info/rfc2145</a>&gt;</span>. </dd>
+<dt id="RFC6241">[RFC6241]</dt>
+        <dd>
+<span class="refAuthor">Enns, R., Ed.</span><span class="refAuthor">, Bjorklund, M., Ed.</span><span class="refAuthor">, Schoenwaelder, J., Ed.</span><span class="refAuthor">, and A. Bierman, Ed.</span>, <span class="refTitle">"Network Configuration Protocol (NETCONF)"</span>, <span class="seriesInfo">RFC 6241</span>, <span class="seriesInfo">DOI 10.17487/RFC6241</span>, <time datetime="2011-06">June 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6241">https://www.rfc-editor.org/info/rfc6241</a>&gt;</span>. </dd>
+<dt id="RFC7950">[RFC7950]</dt>
+        <dd>
+<span class="refAuthor">Bjorklund, M., Ed.</span>, <span class="refTitle">"The YANG 1.1 Data Modeling Language"</span>, <span class="seriesInfo">RFC 7950</span>, <span class="seriesInfo">DOI 10.17487/RFC7950</span>, <time datetime="2016-08">August 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7950">https://www.rfc-editor.org/info/rfc7950</a>&gt;</span>. </dd>
+<dt id="RFC8040">[RFC8040]</dt>
+        <dd>
+<span class="refAuthor">Bierman, A.</span><span class="refAuthor">, Bjorklund, M.</span><span class="refAuthor">, and K. Watsen</span>, <span class="refTitle">"RESTCONF Protocol"</span>, <span class="seriesInfo">RFC 8040</span>, <span class="seriesInfo">DOI 10.17487/RFC8040</span>, <time datetime="2017-01">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8040">https://www.rfc-editor.org/info/rfc8040</a>&gt;</span>. </dd>
+<dt id="SCHEMA">[SCHEMA]</dt>
+        <dd>
+<span class="refTitle">"LwM2M Schema"</span>, <time></time>, <span>&lt;<a href="http://www.openmobilealliance.org/tech/profiles/LWM2M.xsd">http://www.openmobilealliance.org/tech/profiles/LWM2M.xsd</a>&gt;</span>. </dd>
+<dt id="SEMVER">[SEMVER]</dt>
+        <dd>
+<span class="refTitle">"Semantic Versioning"</span>, <time></time>, <span>&lt;<a href="http://semver.org">http://semver.org</a>&gt;</span>. </dd>
+<dt id="VERSION">[VERSION]</dt>
+      <dd>
+<span class="refTitle">"Versioning Discussion"</span>, <time></time>, <span>&lt;<a href="https://github.com/OpenMobileAlliance/LwM2M/issues/350">https://github.com/OpenMobileAlliance/LwM2M/issues/350</a>&gt;</span>. </dd>
+</dl>
+</section>
+</section>
+<div id="acknowledgments">
+<section id="section-appendix.a">
+      <h2 id="name-acknowledgments">
+<a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="section-appendix.a-1">This document relies heavily on Carsten Bormann's input on Data model versioning <span>[<a href="#DATMOD" class="xref">DATMOD</a>]</span> and on WISHI discussions.<a href="#section-appendix.a-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="section-appendix.b">
+      <h2 id="name-authors-address">
+<a href="#name-authors-address" class="section-name selfRef">Author's Address</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Jaime Jimenez</span></div>
+<div dir="auto" class="left"><span class="org">Ericsson</span></div>
+<div class="tel">
+<span>Phone:</span>
+<a href="tel:+358-442-992-827" class="tel">+358-442-992-827</a>
+</div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:jaime@iki.fi" class="email">jaime@iki.fi</a>
+</div>
+</address>
+</section>
+</div>
+<script>var toc = document.getElementById("toc");
+var tocToggle = toc.querySelector("h2");
+var tocNav = toc.querySelector("nav");
 
+// mobile menu toggle
+tocToggle.onclick = function(event) {
+    if (window.innerWidth < 1024) {
+ var tocNavDisplay = tocNav.currentStyle ? tocNav.currentStyle.display : getComputedStyle(tocNav, null).display;
+ if (tocNavDisplay == "none") {
+     tocNav.style.display = "block";
+ } else {
+     tocNav.style.display = "none";
+ }
+    }
+}
+
+// toc anchor scroll to anchor
+tocNav.addEventListener("click", function (event) {
+    event.preventDefault();
+    if (event.target.nodeName == 'A') {
+ if (window.innerWidth < 1024) {
+     tocNav.style.display = "none";
+ }
+ var href = event.target.getAttribute("href");
+ var anchorId = href.substr(1);
+ var anchor =  document.getElementById(anchorId);
+ anchor.scrollIntoView(true);
+ window.history.pushState("","",href);
+    }
+});
+
+// switch toc mode when window resized
+window.onresize = function () {
+    if (window.innerWidth < 1024) {
+ tocNav.style.display = "none";
+    } else {
+ tocNav.style.display = "block";
+    }
+}
+</script>
 </body>
 </html>
-

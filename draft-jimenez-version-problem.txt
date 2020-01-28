@@ -4,8 +4,8 @@
 
 IPSO Working Group                                            J. Jimenez
 Internet-Draft                                                  Ericsson
-Intended status: Standards Track                       December 12, 2019
-Expires: June 14, 2020
+Intended status: Standards Track                         28 January 2020
+Expires: 31 July 2020
 
 
                  Problem Details For Versioning in IoT
@@ -31,31 +31,31 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 14, 2020.
+   This Internet-Draft will expire on 31 July 2020.
 
 Copyright Notice
 
-   Copyright (c) 2019 IETF Trust and the persons identified as the
+   Copyright (c) 2020 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
-   include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
 
 
 
 
 
 
-Jimenez                   Expires June 14, 2020                 [Page 1]
+
+Jimenez                   Expires 31 July 2020                  [Page 1]
 
-Internet-Draft             Versioning Problems             December 2019
+Internet-Draft             Versioning Problems              January 2020
 
 
 Table of Contents
@@ -65,18 +65,18 @@ Table of Contents
    2.  Types of Changes  . . . . . . . . . . . . . . . . . . . . . .   2
      2.1.  Semantic Versioning . . . . . . . . . . . . . . . . . . .   3
      2.2.  Software Evolution  . . . . . . . . . . . . . . . . . . .   3
-     2.3.  Data Model Versioning . . . . . . . . . . . . . . . . . .   4
+     2.3.  Data Model Versioning . . . . . . . . . . . . . . . . . .   3
    3.  Versioning Examples . . . . . . . . . . . . . . . . . . . . .   4
      3.1.  HTTP Versioning . . . . . . . . . . . . . . . . . . . . .   4
      3.2.  IPSO Versioning . . . . . . . . . . . . . . . . . . . . .   4
-     3.3.  YANG versioning . . . . . . . . . . . . . . . . . . . . .   4
+     3.3.  YANG versioning . . . . . . . . . . . . . . . . . . . . .   5
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
    6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
      6.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
      6.2.  Informative References  . . . . . . . . . . . . . . . . .   5
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   6
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   7
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   7
 
 1.  Introduction
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Jimenez                   Expires June 14, 2020                 [Page 2]
+Jimenez                   Expires 31 July 2020                  [Page 2]
 
-Internet-Draft             Versioning Problems             December 2019
+Internet-Draft             Versioning Problems              January 2020
 
 
    also to be able to be _forwards compatible_ towards future extensions
@@ -124,11 +124,10 @@ Internet-Draft             Versioning Problems             December 2019
    "Semantic Versioning" [SEMVER], which provides a categorization as
    follows:
 
-Given a version number MAJOR.MINOR.PATCH, increment the:
-
-- MAJOR version when you make incompatible API changes,
-- MINOR version when you add functionality in a backwards compatible manner, and
-- PATCH version when you make backwards compatible bug fixes.
+      Given a version number MAJOR.MINOR.PATCH, increment the:
+      MAJOR version when you make incompatible API changes,
+      MINOR version when you add functionality in a backwards compatible manner, and
+      PATCH version when you make backwards compatible bug fixes.
 
 2.2.  Software Evolution
 
@@ -158,21 +157,18 @@ Given a version number MAJOR.MINOR.PATCH, increment the:
    into new versions as it creates flag day between producers and
    consumers.
 
-
-
-
-
-
-
-
-Jimenez                   Expires June 14, 2020                 [Page 3]
-
-Internet-Draft             Versioning Problems             December 2019
-
-
 2.3.  Data Model Versioning
 
    TBD
+
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 3]
+
+Internet-Draft             Versioning Problems              January 2020
+
 
 3.  Versioning Examples
 
@@ -201,7 +197,38 @@ Internet-Draft             Versioning Problems             December 2019
 
 3.2.  IPSO Versioning
 
-   TBD
+   IPSO Smart Objects are resources stored on a CoAP server.  IPSO
+   provides an [SCHEMA] which is the same used by LwM2M.  IPSO Objects
+   are defined in such a way that they do not depend on the use of CoAP,
+   any RESTful protocol is sufficient.  Nevertheless, to develop a
+   complete and interoperable solution the object model is based on the
+   Open Mobile Alliance Lightweight Specification (OMA LWM2M) and comes
+   with an object registry Each object is stored in a repository, the
+   [OMNA] Registry.
+
+   In IPSO the versioning problem is manyfold; Object Versioning,
+   Repository Versioning, Enabler Version, Schema Version.
+
+   In scope of this document is the problem of Object Versioning.  IPSO
+   uses a 16 bit number space to identify objects (e.g., 3303 identifies
+   the object for "temperature").  IPSO uses a versioning similar to
+   that of [SEMVER], using the concept of MINOR and MAJOR revisions, and
+   it is defined in the [LWM2MSPEC] (section 7.2.  Object Versioning).
+   Explain Object, Explain Resource.
+
+   Currently IPSO creates a new reusable resource whenever a reusable
+   resource changes.  Any object that wants to make use of the new
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 4]
+
+Internet-Draft             Versioning Problems              January 2020
+
+
+   reusable resource has to be updated resulting in a new version of the
+   object.  The discussion is around deprecation of versioning
+   altogether [VERSION].
 
 3.3.  YANG versioning
 
@@ -217,14 +244,6 @@ Internet-Draft             Versioning Problems             December 2019
    themselves registered on IANA.  Every time a company has a new YANG
    module, they may register it with IANA, which will automatically
    assign them a SID or a SID range.
-
-
-
-
-Jimenez                   Expires June 14, 2020                 [Page 4]
-
-Internet-Draft             Versioning Problems             December 2019
-
 
    To track the addition of new features and specially to integrate the
    specification work with the way developers do version control (e.g.,
@@ -254,33 +273,47 @@ Internet-Draft             Versioning Problems             December 2019
 
 6.2.  Informative References
 
-   [DATMOD]   "Data Model Versioning", n.d.,
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 5]
+
+Internet-Draft             Versioning Problems              January 2020
+
+
+   [DATMOD]   "Data Model Versioning",
               <https://github.com/t2trg/wishi/blob/master/
               slides/2019-11-07-versions.pdf>.
 
    [I-D.claise-semver]
               Claise, B., Barnes, R., and J. Clarke, "Semantic
-              Versioning and Structure for IETF Specifications", draft-
-              claise-semver-02 (work in progress), January 2018.
+              Versioning and Structure for IETF Specifications", Work in
+              Progress, Internet-Draft, draft-claise-semver-02, 17
+              January 2018, <http://www.ietf.org/internet-drafts/draft-
+              claise-semver-02.txt>.
 
    [I-D.ietf-core-sid]
               Veillette, M., Pelov, A., and I. Petrov, "YANG Schema Item
-              iDentifier (SID)", draft-ietf-core-sid-07 (work in
-              progress), July 2019.
+              iDentifier (SID)", Work in Progress, Internet-Draft,
+              draft-ietf-core-sid-09, 23 January 2020,
+              <http://www.ietf.org/internet-drafts/draft-ietf-core-sid-
+              09.txt>.
 
-   [RFC2145]  Mogul, J., Fielding, R., Gettys, J., and H. Frystyk, "Use
-              and Interpretation of HTTP Version Numbers", RFC 2145,
-              DOI 10.17487/RFC2145, May 1997,
+   [LWM2MSPEC]
+              "LwM2M Specification",
+              <http://www.openmobilealliance.org/release/LightweightM2M/
+              V1_1_1-20190617-A/HTML-Version/OMA-TS-LightweightM2M_Core-
+              V1_1_1-20190617-A.html#7-2-0-72-Object-Versioning>.
+
+   [OMNA]     "OMNA Registry",
+              <http://www.openmobilealliance.org/wp/OMNA/LwM2M/
+              LwM2MRegistry.html>.
+
+   [RFC2145]  Mogul, J. C., Fielding, R., Gettys, J., and H. Frystyk,
+              "Use and Interpretation of HTTP Version Numbers",
+              RFC 2145, DOI 10.17487/RFC2145, May 1997,
               <https://www.rfc-editor.org/info/rfc2145>.
-
-
-
-
-
-Jimenez                   Expires June 14, 2020                 [Page 5]
-
-Internet-Draft             Versioning Problems             December 2019
-
 
    [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
               and A. Bierman, Ed., "Network Configuration Protocol
@@ -295,7 +328,23 @@ Internet-Draft             Versioning Problems             December 2019
               Protocol", RFC 8040, DOI 10.17487/RFC8040, January 2017,
               <https://www.rfc-editor.org/info/rfc8040>.
 
-   [SEMVER]   "Semantic Versioning", n.d., <http://semver.org>.
+   [SCHEMA]   "LwM2M Schema",
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 6]
+
+Internet-Draft             Versioning Problems              January 2020
+
+
+              <http://www.openmobilealliance.org/tech/profiles/
+              LWM2M.xsd>.
+
+   [SEMVER]   "Semantic Versioning", <http://semver.org>.
+
+   [VERSION]  "Versioning Discussion",
+              <https://github.com/OpenMobileAlliance/LwM2M/issues/350>.
 
 Acknowledgments
 
@@ -333,4 +382,11 @@ Author's Address
 
 
 
-Jimenez                   Expires June 14, 2020                 [Page 6]
+
+
+
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 7]

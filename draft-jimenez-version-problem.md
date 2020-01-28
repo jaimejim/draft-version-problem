@@ -26,9 +26,27 @@ informative:
   SEMVER:
    target: http://semver.org
    title: Semantic Versioning
+   date: false
   DATMOD:
    target: https://github.com/t2trg/wishi/blob/master/slides/2019-11-07-versions.pdf
    title: Data Model Versioning
+   date: false
+  SCHEMA:
+   target: http://www.openmobilealliance.org/tech/profiles/LWM2M.xsd
+   title: LwM2M Schema
+   date: false
+  OMNA:
+   target: http://www.openmobilealliance.org/wp/OMNA/LwM2M/LwM2MRegistry.html
+   title: OMNA Registry
+   date:  false
+  LWM2MSPEC:
+   target: http://www.openmobilealliance.org/release/LightweightM2M/V1_1_1-20190617-A/HTML-Version/OMA-TS-LightweightM2M_Core-V1_1_1-20190617-A.html#7-2-0-72-Object-Versioning
+   title: LwM2M Specification
+   date: false
+  VERSION:
+   target: https://github.com/OpenMobileAlliance/LwM2M/issues/350
+   title: Versioning Discussion
+   date: false
 
 --- abstract
 This document provides some problem details when doing versioning on IoT devices, it illustrates common problems faced by SDOs.
@@ -56,11 +74,10 @@ Changes need to be *backwards compatible* with legacy devices and systems withou
 On most software systems and Web APIs there is the concept of "Semantic Versioning" {{SEMVER}}, which provides a categorization as follows:  
 
 ~~~
-Given a version number MAJOR.MINOR.PATCH, increment the:
-
-- MAJOR version when you make incompatible API changes,
-- MINOR version when you add functionality in a backwards compatible manner, and
-- PATCH version when you make backwards compatible bug fixes.
+   Given a version number MAJOR.MINOR.PATCH, increment the:
+   MAJOR version when you make incompatible API changes,
+   MINOR version when you add functionality in a backwards compatible manner, and
+   PATCH version when you make backwards compatible bug fixes.
 ~~~
 
 ## Software Evolution
@@ -86,8 +103,7 @@ With most software there is a disincentive to roll-up feature bundles into new v
 
 TBD
 
-
-# Versioning Examples 
+# Versioning Examples
 
 While {{SEMVER}} formatting works fine for versioning of interfaces and protocols it might be different for *versioning of data formats*. Here we see some example protocols and data models and how they have dealt with versioning.
 
@@ -101,7 +117,13 @@ HTTP since v1.0 had multiple modifications but somehow the existing feature set 
 
 ## IPSO Versioning
 
-TBD 
+IPSO Smart Objects are resources stored on a CoAP server. IPSO provides an {{SCHEMA}} which is the same used by LwM2M. IPSO Objects are defined in such a way that they do not depend on the use of CoAP, any RESTful protocol is sufficient. Nevertheless, to develop a complete and interoperable solution the object model is based on the Open Mobile Alliance Lightweight Specification (OMA LWM2M) and comes with an object registry Each object is stored in a repository, the {{OMNA}} Registry.
+
+In IPSO the versioning problem is manyfold; Object Versioning, Repository Versioning, Enabler Version, Schema Version.
+
+In scope of this document is the problem of Object Versioning. IPSO uses a 16 bit number space to identify objects (e.g., 3303 identifies the object for "temperature"). IPSO uses a versioning similar to that of {{SEMVER}}, using the concept of MINOR and MAJOR revisions, and it is defined in the {{LWM2MSPEC}} (section 7.2. Object Versioning). Explain Object, Explain Resource.
+
+Currently IPSO creates a new reusable resource whenever a reusable resource changes. Any object that wants to make use of the new reusable resource has to be updated resulting in a new version of the object. The discussion is around deprecation of versioning altogether {{VERSION}}.
 
 ## YANG versioning
 

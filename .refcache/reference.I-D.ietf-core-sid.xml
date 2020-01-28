@@ -16,13 +16,13 @@
     <organization />
 </author>
 
-<date month='July' day='8' year='2019' />
+<date month='January' day='23' year='2020' />
 
-<abstract><t>YANG Schema Item iDentifiers (SID) are globally unique 64-bit unsigned integers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of SIDs. To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.</t></abstract>
+<abstract><t>YANG Schema Item iDentifiers (SID) are globally unique 63-bit unsigned integers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of SIDs. To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.</t></abstract>
 
 </front>
 
-<seriesInfo name='Internet-Draft' value='draft-ietf-core-sid-07' />
+<seriesInfo name='Internet-Draft' value='draft-ietf-core-sid-09' />
 <format type='TXT'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-core-sid-07.txt' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-core-sid-09.txt' />
 </reference>
