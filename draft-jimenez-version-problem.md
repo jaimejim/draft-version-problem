@@ -75,6 +75,7 @@ On most software systems and Web APIs there is the concept of "Semantic Versioni
 
 ~~~
    Given a version number MAJOR.MINOR.PATCH, increment the:
+
    MAJOR version when you make incompatible API changes,
    MINOR version when backwards compatible functions are added,
    PATCH version when you make backwards compatible bug fixes.
@@ -117,11 +118,11 @@ HTTP since v1.0 had multiple modifications but somehow the existing feature set 
 
 ## IPSO Versioning
 
-IPSO Smart Objects are resources stored on a CoAP server. IPSO provides an {{SCHEMA}} which is the same used by LwM2M. IPSO Objects are defined in such a way that they do not depend on the use of CoAP, any RESTful protocol is sufficient. Nevertheless, to develop a complete and interoperable solution the object model is based on the Open Mobile Alliance Lightweight Specification (OMA LWM2M) and comes with an object registry Each object is stored in a repository, the {{OMNA}} Registry.
+IPSO Smart Objects are resources stored on a CoAP server. IPSO provides an XSD Schema file {{SCHEMA}} which is the same used by LwM2M. IPSO Objects are defined in such a way that they do not depend on the use of CoAP, any RESTful protocol is sufficient. Nevertheless, to develop a complete and interoperable solution the object model is based on the Open Mobile Alliance Lightweight Specification (OMA LWM2M) and comes with an object registry Each object is stored in a repository, the Registry {{OMNA}}.
 
 In IPSO the versioning problem is manyfold; Object Versioning, Repository Versioning, Enabler Version, Schema Version.
 
-In scope of this document is the problem of Object Versioning. IPSO uses a 16 bit number space to identify objects (e.g., 3303 identifies the object for "temperature"). IPSO uses a versioning similar to that of {{SEMVER}}, using the concept of MINOR and MAJOR revisions, and it is defined in the {{LWM2MSPEC}} (section 7.2. Object Versioning). Explain Object, Explain Resource.
+In scope of this document is the problem of Object Versioning. IPSO uses a 16 bit number space to identify objects (e.g., 3303 identifies the object for "temperature"). IPSO uses a versioning similar to that of Semantic Versioning {{SEMVER}}, using the concept of MINOR and MAJOR revisions, and it is defined in the LwM2M Specification ({{LWM2MSPEC}}, section 7.2. Object Versioning). Explain Object, Explain Resource.
 
 Object versioning aims at identifying the LwM2M Object modifications which can be categorized in 2 types defined below:
 
