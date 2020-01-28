@@ -1060,7 +1060,29 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
 <p id="section-3.2-1">IPSO Smart Objects are resources stored on a CoAP server. IPSO provides an <span>[<a href="#SCHEMA" class="xref">SCHEMA</a>]</span> which is the same used by LwM2M. IPSO Objects are defined in such a way that they do not depend on the use of CoAP, any RESTful protocol is sufficient. Nevertheless, to develop a complete and interoperable solution the object model is based on the Open Mobile Alliance Lightweight Specification (OMA LWM2M) and comes with an object registry Each object is stored in a repository, the <span>[<a href="#OMNA" class="xref">OMNA</a>]</span> Registry.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <p id="section-3.2-2">In IPSO the versioning problem is manyfold; Object Versioning, Repository Versioning, Enabler Version, Schema Version.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 <p id="section-3.2-3">In scope of this document is the problem of Object Versioning. IPSO uses a 16 bit number space to identify objects (e.g., 3303 identifies the object for "temperature"). IPSO uses a versioning similar to that of <span>[<a href="#SEMVER" class="xref">SEMVER</a>]</span>, using the concept of MINOR and MAJOR revisions, and it is defined in the <span>[<a href="#LWM2MSPEC" class="xref">LWM2MSPEC</a>]</span> (section 7.2. Object Versioning). Explain Object, Explain Resource.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<p id="section-3.2-4">Currently IPSO creates a new reusable resource whenever a reusable resource changes. Any object that wants to make use of the new reusable resource has to be updated resulting in a new version of the object. The discussion is around deprecation of versioning altogether <span>[<a href="#VERSION" class="xref">VERSION</a>]</span>.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.2-4">Object versioning aims at identifying the LwM2M Object modifications which can be categorized in 2 types defined below:<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-3.2-5.1">
+            <p id="section-3.2-5.1.1">Evolution of type I: representing non-backward-compatible ("breaking") evolutions, namely:<a href="#section-3.2-5.1.1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-3.2-5.1.2.1">a Resource characteristic (optional vs mandatory, data type, supported operations) is changed in the Object<a href="#section-3.2-5.1.2.1" class="pilcrow">¶</a>
+</li>
+              <li id="section-3.2-5.1.2.2">a mandatory Resource is added to or removed from the Object.<a href="#section-3.2-5.1.2.2" class="pilcrow">¶</a>
+</li>
+              <li id="section-3.2-5.1.2.3">a feature which is only defined by a new LwM2M Enabler, is added to the Object.<a href="#section-3.2-5.1.2.3" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+          <li id="section-3.2-5.2">
+            <p id="section-3.2-5.2.1">Evolution of type II: representing backward-compatible ("non-breaking") evolutions<a href="#section-3.2-5.2.1" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-3.2-5.2.2.1">an optional Resource is added or removed in the Object<a href="#section-3.2-5.2.2.1" class="pilcrow">¶</a>
+</li>
+            </ul>
+</li>
+        </ul>
+<p id="section-3.2-6">Compatibility is guaranteed between client and server when they interact.<a href="#section-3.2-6" class="pilcrow">¶</a></p>
+<p id="section-3.2-7">Currently IPSO creates a new reusable resource whenever a reusable resource changes. Any object that wants to make use of the new reusable resource has to be updated resulting in a new version of the object. The discussion is around deprecation of versioning altogether <span>[<a href="#VERSION" class="xref">VERSION</a>]</span>.<a href="#section-3.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="yang-versioning">

@@ -70,11 +70,11 @@ Table of Contents
      3.1.  HTTP Versioning . . . . . . . . . . . . . . . . . . . . .   4
      3.2.  IPSO Versioning . . . . . . . . . . . . . . . . . . . . .   4
      3.3.  YANG versioning . . . . . . . . . . . . . . . . . . . . .   5
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
-   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     6.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
-     6.2.  Informative References  . . . . . . . . . . . . . . . . .   5
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     6.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
+     6.2.  Informative References  . . . . . . . . . . . . . . . . .   6
    Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   7
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   7
 
@@ -216,8 +216,8 @@ Internet-Draft             Versioning Problems              January 2020
    it is defined in the [LWM2MSPEC] (section 7.2.  Object Versioning).
    Explain Object, Explain Resource.
 
-   Currently IPSO creates a new reusable resource whenever a reusable
-   resource changes.  Any object that wants to make use of the new
+   Object versioning aims at identifying the LwM2M Object modifications
+   which can be categorized in 2 types defined below:
 
 
 
@@ -226,6 +226,27 @@ Jimenez                   Expires 31 July 2020                  [Page 4]
 Internet-Draft             Versioning Problems              January 2020
 
 
+   *  Evolution of type I: representing non-backward-compatible
+      ("breaking") evolutions, namely:
+
+      -  a Resource characteristic (optional vs mandatory, data type,
+         supported operations) is changed in the Object
+
+      -  a mandatory Resource is added to or removed from the Object.
+
+      -  a feature which is only defined by a new LwM2M Enabler, is
+         added to the Object.
+
+   *  Evolution of type II: representing backward-compatible ("non-
+      breaking") evolutions
+
+      -  an optional Resource is added or removed in the Object
+
+   Compatibility is guaranteed between client and server when they
+   interact.
+
+   Currently IPSO creates a new reusable resource whenever a reusable
+   resource changes.  Any object that wants to make use of the new
    reusable resource has to be updated resulting in a new version of the
    object.  The discussion is around deprecation of versioning
    altogether [VERSION].
@@ -250,6 +271,17 @@ Internet-Draft             Versioning Problems              January 2020
    Git, SVN...) they have come up with a mechanism to also version
    drafts and assign them to specific GIT commits [I-D.claise-semver].
 
+
+
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 5]
+
+Internet-Draft             Versioning Problems              January 2020
+
+
 4.  Security Considerations
 
    TBD.
@@ -272,15 +304,6 @@ Internet-Draft             Versioning Problems              January 2020
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 6.2.  Informative References
-
-
-
-
-
-Jimenez                   Expires 31 July 2020                  [Page 5]
-
-Internet-Draft             Versioning Problems              January 2020
-
 
    [DATMOD]   "Data Model Versioning",
               <https://github.com/t2trg/wishi/blob/master/
@@ -306,6 +329,15 @@ Internet-Draft             Versioning Problems              January 2020
               V1_1_1-20190617-A/HTML-Version/OMA-TS-LightweightM2M_Core-
               V1_1_1-20190617-A.html#7-2-0-72-Object-Versioning>.
 
+
+
+
+
+Jimenez                   Expires 31 July 2020                  [Page 6]
+
+Internet-Draft             Versioning Problems              January 2020
+
+
    [OMNA]     "OMNA Registry",
               <http://www.openmobilealliance.org/wp/OMNA/LwM2M/
               LwM2MRegistry.html>.
@@ -329,15 +361,6 @@ Internet-Draft             Versioning Problems              January 2020
               <https://www.rfc-editor.org/info/rfc8040>.
 
    [SCHEMA]   "LwM2M Schema",
-
-
-
-
-Jimenez                   Expires 31 July 2020                  [Page 6]
-
-Internet-Draft             Versioning Problems              January 2020
-
-
               <http://www.openmobilealliance.org/tech/profiles/
               LWM2M.xsd>.
 
@@ -358,29 +381,6 @@ Author's Address
 
    Phone: +358-442-992-827
    Email: jaime@iki.fi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

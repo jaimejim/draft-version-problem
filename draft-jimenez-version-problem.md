@@ -123,6 +123,19 @@ In IPSO the versioning problem is manyfold; Object Versioning, Repository Versio
 
 In scope of this document is the problem of Object Versioning. IPSO uses a 16 bit number space to identify objects (e.g., 3303 identifies the object for "temperature"). IPSO uses a versioning similar to that of {{SEMVER}}, using the concept of MINOR and MAJOR revisions, and it is defined in the {{LWM2MSPEC}} (section 7.2. Object Versioning). Explain Object, Explain Resource.
 
+Object versioning aims at identifying the LwM2M Object modifications which can be categorized in 2 types defined below:
+
+- Evolution of type I: representing non-backward-compatible ("breaking") evolutions, namely:
+   - a Resource characteristic (optional vs mandatory, data type, supported operations) is changed in the Object
+   - a mandatory Resource is added to or removed from the Object.
+   - a feature which is only defined by a new LwM2M Enabler, is added to the Object.
+
+- Evolution of type II: representing backward-compatible ("non-breaking") evolutions
+
+   - an optional Resource is added or removed in the Object
+
+Compatibility is guaranteed between client and server when they interact.
+
 Currently IPSO creates a new reusable resource whenever a reusable resource changes. Any object that wants to make use of the new reusable resource has to be updated resulting in a new version of the object. The discussion is around deprecation of versioning altogether {{VERSION}}.
 
 ## YANG versioning
